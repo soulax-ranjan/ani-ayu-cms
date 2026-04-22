@@ -145,8 +145,8 @@ export default function ProductList({ onEdit }: { onEdit?: (p: Product) => void 
                     background: #94a3b8;
                 }
             `}</style>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4">
+            <div className="md-card overflow-hidden">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border-b border-gray-100">
                     <div className="text-sm text-gray-600">
                         <span className="font-semibold text-gray-900">Total:</span> {products.length} products
                         <span className="mx-2 hidden sm:inline">•</span>
@@ -154,11 +154,11 @@ export default function ProductList({ onEdit }: { onEdit?: (p: Product) => void 
                     </div>
 
                     <div className="flex items-center gap-3 w-full sm:w-auto">
-                        <label className="text-sm text-gray-600 whitespace-nowrap">Sort:</label>
+                        <label className="text-sm text-gray-600 whitespace-nowrap font-medium">Sort:</label>
                         <select
                             value={sortOption}
                             onChange={(e) => { setSortOption(e.target.value as any); setCurrentPage(1); }}
-                            className="px-3 py-1 text-sm border rounded-md bg-white w-full sm:w-auto"
+                            className="md-input w-full sm:w-auto py-1.5"
                         >
                             <option value="name_asc">Product (A → Z)</option>
                             <option value="name_desc">Product (Z → A)</option>
@@ -174,13 +174,13 @@ export default function ProductList({ onEdit }: { onEdit?: (p: Product) => void 
 
                 <div className="overflow-x-auto custom-scrollbar">
                     <table className="w-full text-sm text-left text-gray-500">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50/50 border-b border-gray-100">
+                        <thead className="text-xs text-gray-500 uppercase bg-surface-variant/30 border-b border-gray-100">
                             <tr>
-                                <th className="px-6 py-4 font-bold">Product</th>
-                                <th className="px-6 py-4 font-bold">Price</th>
-                                <th className="px-6 py-4 font-bold">Stock</th>
-                                <th className="px-6 py-4 font-bold">Status</th>
-                                <th className="px-6 py-4 font-bold">Action</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Product</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Price</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Stock</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Status</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
@@ -206,7 +206,7 @@ export default function ProductList({ onEdit }: { onEdit?: (p: Product) => void 
                                     <tr
                                         key={product.id}
                                         onClick={() => onEdit ? onEdit(product) : setSelectedProduct(product)}
-                                        className="hover:bg-blue-50/30 transition-colors group cursor-pointer"
+                                        className="hover:bg-primary-50/50 transition-colors group cursor-pointer"
                                     >
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-4">
@@ -225,17 +225,17 @@ export default function ProductList({ onEdit }: { onEdit?: (p: Product) => void 
                                                     <a
                                                         href="#"
                                                         onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (onEdit) onEdit(product); else setSelectedProduct(product); }}
-                                                        className="font-bold text-blue-600 hover:underline transition-colors block max-w-[200px] sm:max-w-xs truncate"
+                                                        className="font-bold text-primary-600 hover:text-primary-700 hover:underline transition-colors block max-w-[200px] sm:max-w-xs truncate"
                                                     >
                                                         {product.name}
                                                     </a>
                                                     <div className="text-xs text-gray-400 font-mono mt-0.5">{product.sku || product.id.split('-')[0]}</div>
                                                     <div className="flex items-center gap-2 mt-1">
                                                         {product.suggested && (
-                                                            <span className="text-[10px] font-black uppercase tracking-widest bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full">Suggested</span>
+                                                            <span className="text-[10px] font-black uppercase tracking-widest bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full">Suggested</span>
                                                         )}
                                                         {product.allProduct && (
-                                                            <span className="text-[10px] font-black uppercase tracking-widest bg-gray-50 text-gray-700 px-2 py-0.5 rounded-full">All</span>
+                                                            <span className="text-[10px] font-black uppercase tracking-widest bg-gray-100 text-gray-800 px-2 py-0.5 rounded-full">All</span>
                                                         )}
                                                     </div>
                                                 </div>
@@ -257,8 +257,8 @@ export default function ProductList({ onEdit }: { onEdit?: (p: Product) => void 
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`px-2.5 py-1 text-xs font-bold rounded-full uppercase tracking-wider ${product.status === 'active'
-                                                ? 'bg-green-50 text-green-700 border border-green-100'
-                                                : 'bg-gray-50 text-gray-600 border border-gray-100'
+                                                ? 'bg-green-100 text-green-800'
+                                                : 'bg-gray-100 text-gray-800'
                                                 }`}>
                                                 {product.status || 'Draft'}
                                             </span>
@@ -267,12 +267,12 @@ export default function ProductList({ onEdit }: { onEdit?: (p: Product) => void 
                                             <div className="flex items-center gap-2">
                                                 <button
                                                     onClick={(e) => { e.stopPropagation(); if (onEdit) onEdit(product); else setSelectedProduct(product); }}
-                                                    className="px-3 py-1 bg-gray-900 text-white font-bold rounded hover:bg-gray-800 shadow-sm active:scale-95 transition-all whitespace-nowrap"
+                                                    className="md-btn-primary px-4 py-1.5 text-sm whitespace-nowrap"
                                                 >Update</button>
                                                 <button
                                                     onClick={(e) => { e.stopPropagation(); openConfirm(product.id, product.name); }}
                                                     disabled={!product.id || deletingId === product.id}
-                                                    className="px-3 py-1 text-sm text-red-600 border border-red-100 rounded disabled:opacity-50 whitespace-nowrap"
+                                                    className="md-btn-outlined px-4 py-1.5 text-sm border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 disabled:opacity-50 whitespace-nowrap"
                                                 >{deletingId === product.id ? 'Deleting...' : 'Delete'}</button>
                                             </div>
                                         </td>

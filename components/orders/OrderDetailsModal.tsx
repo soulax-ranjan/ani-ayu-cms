@@ -37,16 +37,16 @@ export default function OrderDetailsModal({ order, onClose, onUpdate }: { order:
 
     return (
         <div className="fixed inset-0 z-[200] flex items-start justify-center p-4 md:p-10 bg-black/60" onClick={onClose}>
-            <div className="bg-white w-full max-w-5xl rounded-xl shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <div className="md-card w-full max-w-5xl rounded-xl shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center justify-between p-6 border-b">
                     <div>
-                        <h3 className="text-lg font-black">Order {String(order.id).split('-')[0]}</h3>
+                        <h3 className="text-lg font-black text-gray-900">Order {String(order.id).split('-')[0]}</h3>
                         <p className="text-xs text-gray-500">{new Date(order.created_at).toLocaleString()}</p>
                         <div className="text-xs text-gray-400 mt-1">ID: {order.id}</div>
                     </div>
                     <div className="flex items-center gap-3">
                         <div className="flex items-center gap-3">
-                            <select value={status} onChange={(e) => setStatus(e.target.value)} className="px-3 py-1 border rounded text-sm bg-white">
+                            <select value={status} onChange={(e) => setStatus(e.target.value)} className="md-input py-1.5">
                                 <option value="pending">Pending</option>
                                 <option value="confirmed">Confirmed</option>
                                 <option value="processing">Processing</option>
@@ -54,9 +54,9 @@ export default function OrderDetailsModal({ order, onClose, onUpdate }: { order:
                                 <option value="delivered">Delivered</option>
                                 <option value="cancelled">Cancelled</option>
                             </select>
-                            <button onClick={updateStatus} disabled={saving} className="px-3 py-1 bg-blue-600 text-white rounded disabled:opacity-50">{saving ? 'Saving...' : 'Update Status'}</button>
+                            <button onClick={updateStatus} disabled={saving} className="md-btn-primary px-4 py-1.5 text-sm disabled:opacity-50">{saving ? 'Saving...' : 'Update Status'}</button>
                         </div>
-                        <button onClick={onClose} className="px-4 py-2 bg-gray-100 rounded">Close</button>
+                        <button onClick={onClose} className="md-btn-outlined px-4 py-1.5 text-sm">Close</button>
                     </div>
                 </div>
 

@@ -97,8 +97,8 @@ export default function CategoryList({ onEdit }: { onEdit?: (category: Category)
                     background: #94a3b8;
                 }
             `}</style>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4">
+            <div className="md-card overflow-hidden">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border-b border-gray-100">
                     <div className="text-sm text-gray-600">
                         <span className="font-semibold text-gray-900">Total:</span> {categories.length} categories
                         <span className="mx-2 hidden sm:inline">•</span>
@@ -106,11 +106,11 @@ export default function CategoryList({ onEdit }: { onEdit?: (category: Category)
                     </div>
 
                     <div className="flex items-center gap-3 w-full sm:w-auto">
-                        <label className="text-sm text-gray-600 whitespace-nowrap">Sort:</label>
+                        <label className="text-sm text-gray-600 whitespace-nowrap font-medium">Sort:</label>
                         <select
                             value={sortOption}
                             onChange={(e) => { setSortOption(e.target.value as any); setCurrentPage(1); }}
-                            className="px-3 py-1 text-sm border rounded-md bg-white w-full sm:w-auto"
+                            className="md-input w-full sm:w-auto py-1.5"
                         >
                             <option value="name_asc">Category (A → Z)</option>
                             <option value="name_desc">Category (Z → A)</option>
@@ -120,13 +120,13 @@ export default function CategoryList({ onEdit }: { onEdit?: (category: Category)
 
                 <div className="overflow-x-auto custom-scrollbar">
                     <table className="w-full text-sm text-left text-gray-500">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50/50 border-b border-gray-100">
+                        <thead className="text-xs text-gray-500 uppercase bg-surface-variant/30 border-b border-gray-100">
                             <tr>
-                                <th className="px-6 py-4 font-bold">Category</th>
-                                <th className="px-6 py-4 font-bold">Slug</th>
-                                <th className="px-6 py-4 font-bold">Description</th>
-                                <th className="px-6 py-4 font-bold">Featured</th>
-                                <th className="px-6 py-4 font-bold">Action</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Category</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Slug</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Description</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Featured</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
@@ -142,12 +142,12 @@ export default function CategoryList({ onEdit }: { onEdit?: (category: Category)
                                 const paged = sorted.slice(start, start + PAGE_SIZE);
 
                                 return paged.map((category, index) => (
-                                <tr key={category.id || index} className="hover:bg-blue-50/30 transition-colors group">
+                                <tr key={category.id || index} className="hover:bg-primary-50/50 transition-colors group">
                                     <td className="px-6 py-4">
                                         <button
                                             type="button"
                                             onClick={(e) => { e.stopPropagation(); onEdit && onEdit(category); }}
-                                            className="font-bold text-blue-600 hover:text-blue-700 underline text-left cursor-pointer"
+                                            className="font-bold text-primary-600 hover:text-primary-700 hover:underline text-left cursor-pointer"
                                         >
                                             {category.name}
                                         </button>
@@ -156,8 +156,8 @@ export default function CategoryList({ onEdit }: { onEdit?: (category: Category)
                                     <td className="px-6 py-4 truncate max-w-xs text-gray-500 font-medium">{category.description}</td>
                                     <td className="px-6 py-4">
                                         <span className={`px-2.5 py-1 text-[10px] font-black rounded-full uppercase tracking-wider ${category.featured
-                                            ? 'bg-amber-50 text-amber-700 border border-amber-100'
-                                            : 'bg-gray-50 text-gray-400 border border-gray-100'}`}>
+                                            ? 'bg-amber-100 text-amber-800'
+                                            : 'bg-gray-100 text-gray-800'}`}>
                                             {category.featured ? 'Featured' : 'Standard'}
                                         </span>
                                     </td>
@@ -165,12 +165,12 @@ export default function CategoryList({ onEdit }: { onEdit?: (category: Category)
                                         <div className="flex items-center gap-2">
                                             <button
                                                 onClick={(e) => { e.stopPropagation(); onEdit && onEdit(category); }}
-                                                className="px-3 py-1 bg-gray-900 text-white font-bold rounded hover:bg-gray-800 shadow-sm active:scale-95 transition-all"
+                                                className="md-btn-primary px-4 py-1.5 text-sm"
                                             >Update</button>
                                             <button
                                                 onClick={(e) => { e.stopPropagation(); openConfirm(category.id, category.name); }}
                                                 disabled={!category.id || deletingId === category.id}
-                                                className="px-3 py-1 text-sm text-red-600 border border-red-100 rounded disabled:opacity-50"
+                                                className="md-btn-outlined px-4 py-1.5 text-sm border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 disabled:opacity-50"
                                             >{deletingId === category.id ? 'Deleting...' : 'Delete'}</button>
                                         </div>
                                     </td>

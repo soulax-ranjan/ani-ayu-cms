@@ -3,12 +3,49 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 249, 250, 251;
-  --background-end-rgb: 249, 250, 251;
+  --foreground-rgb: 28, 27, 31; /* Material Design text color */
+  --background-start-rgb: 244, 245, 250; /* Material Design light background */
+  --background-end-rgb: 244, 245, 250;
+  
+  /* Material 3 Surface Colors */
+  --surface-rgb: 255, 255, 255;
+  --surface-variant-rgb: 225, 226, 236;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-start-rgb));
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+}
+
+/* Material Design Utilities */
+@layer components {
+    .md-card {
+        @apply bg-white rounded-2xl shadow-md transition-all duration-300;
+    }
+    .md-btn-primary {
+        @apply bg-indigo-600 text-white rounded-full px-6 py-2.5 font-medium shadow-sm transition-all;
+    }
+    .md-btn-primary:hover {
+        @apply shadow-md bg-indigo-700;
+    }
+    .md-btn-primary:active {
+        @apply bg-indigo-800;
+    }
+    .md-btn-outlined {
+        @apply border border-gray-300 text-indigo-600 rounded-full px-6 py-2.5 font-medium transition-all;
+    }
+    .md-btn-outlined:hover {
+        @apply bg-indigo-50;
+    }
+    .md-btn-outlined:active {
+        @apply bg-indigo-100;
+    }
+    .md-input {
+        @apply border border-gray-300 text-gray-900 text-sm rounded-xl block w-full p-2.5 px-4 transition-all;
+        background-color: rgba(225, 226, 236, 0.3);
+    }
+    .md-input:focus {
+        @apply ring-indigo-500 border-indigo-500 bg-white shadow-sm;
+    }
 }

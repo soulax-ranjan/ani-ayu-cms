@@ -69,8 +69,8 @@ export default function AddCategoryForm({ onSuccess, onCancel, initialValues }: 
     };
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md border border-gray-100 ring-1 ring-black/5">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">{initialValues?.id ? 'Edit Category' : 'Create New Category'}</h2>
+        <form onSubmit={handleSubmit} className="md-card p-6 border-t-4 border-t-primary-500">
+            <h2 className="text-xl font-bold text-gray-900 mb-6">{initialValues?.id ? 'Edit Category' : 'Create New Category'}</h2>
 
             {error && (
                 <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded shadow-sm flex items-center gap-3">
@@ -89,7 +89,7 @@ export default function AddCategoryForm({ onSuccess, onCancel, initialValues }: 
                         value={name}
                         onChange={(e) => handleNameChange(e.target.value)}
                         required
-                        className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        className="md-input w-full"
                         placeholder="e.g. Trendy Collections"
                     />
                 </div>
@@ -101,7 +101,7 @@ export default function AddCategoryForm({ onSuccess, onCancel, initialValues }: 
                         value={slug}
                         onChange={(e) => setSlug(e.target.value)}
                         required
-                        className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        className="md-input w-full"
                         placeholder="e.g. trendy-collections"
                     />
                 </div>
@@ -112,7 +112,7 @@ export default function AddCategoryForm({ onSuccess, onCancel, initialValues }: 
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         rows={3}
-                        className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none resize-none"
+                        className="md-input w-full resize-none"
                         placeholder="Enter a brief description of this category..."
                     />
                 </div>
@@ -126,7 +126,7 @@ export default function AddCategoryForm({ onSuccess, onCancel, initialValues }: 
                             id="featured"
                             checked={featured}
                             onChange={(e) => setFeatured(e.target.checked)}
-                            className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                            className="w-5 h-5 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                         />
                     </div>
                     <label htmlFor="featured" className="text-sm font-semibold text-gray-700 cursor-pointer select-none">
@@ -161,7 +161,7 @@ export default function AddCategoryForm({ onSuccess, onCancel, initialValues }: 
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`${initialValues?.id ? 'px-8 py-2 bg-gray-900 text-white font-bold rounded-lg hover:bg-gray-800 transition-all active:scale-95 shadow-sm' : 'px-8 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all active:scale-95 shadow-lg shadow-blue-500/20'} ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    className={`md-btn-primary px-8 py-2 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                     {isSubmitting ? (
                         <span className="flex items-center gap-2">

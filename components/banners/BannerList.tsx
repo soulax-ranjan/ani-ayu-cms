@@ -91,8 +91,8 @@ export default function BannerList({ onDeleted, onEdit }: Props) {
 
     return (
         <>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4">
+            <div className="md-card overflow-hidden">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border-b border-gray-100">
                     <div className="text-sm text-gray-600">
                         <span className="font-semibold text-gray-900">Total:</span> {banners.length} banners
                         <span className="mx-2 hidden sm:inline">•</span>
@@ -100,8 +100,8 @@ export default function BannerList({ onDeleted, onEdit }: Props) {
                     </div>
 
                     <div className="flex items-center gap-3 w-full sm:w-auto">
-                        <label className="text-sm text-gray-600 whitespace-nowrap">Sort:</label>
-                        <select value={sortOption} onChange={(e) => { setSortOption(e.target.value as any); setCurrentPage(1); }} className="px-3 py-1 text-sm border rounded-md bg-white w-full sm:w-auto">
+                        <label className="text-sm text-gray-600 whitespace-nowrap font-medium">Sort:</label>
+                        <select value={sortOption} onChange={(e) => { setSortOption(e.target.value as any); setCurrentPage(1); }} className="md-input w-full sm:w-auto py-1.5">
                             <option value="order_asc">Order (Low → High)</option>
                             <option value="order_desc">Order (High → Low)</option>
                             <option value="title_asc">Title (A → Z)</option>
@@ -112,14 +112,14 @@ export default function BannerList({ onDeleted, onEdit }: Props) {
 
                 <div className="overflow-x-auto custom-scrollbar">
                     <table className="w-full text-sm text-left text-gray-500">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50/50 border-b border-gray-100">
+                        <thead className="text-xs text-gray-500 uppercase bg-surface-variant/30 border-b border-gray-100">
                             <tr>
-                                <th className="px-6 py-4 font-bold">Banner</th>
-                                <th className="px-6 py-4 font-bold">Subtitle</th>
-                                <th className="px-6 py-4 font-bold">Order</th>
-                                <th className="px-6 py-4 font-bold">Featured</th>
-                                <th className="px-6 py-4 font-bold">Active</th>
-                                <th className="px-6 py-4 font-bold">Action</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Banner</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Subtitle</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Order</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Featured</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Active</th>
+                                <th className="px-6 py-4 font-semibold tracking-wider">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
@@ -138,7 +138,7 @@ export default function BannerList({ onDeleted, onEdit }: Props) {
                                 const paged = sorted.slice(start, start + PAGE_SIZE);
 
                                 return paged.map((b: any, idx) => (
-                                    <tr key={b.id || b._id || idx} className="hover:bg-blue-50/30 transition-colors group">
+                                    <tr key={b.id || b._id || idx} className="hover:bg-primary-50/50 transition-colors group">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-4">
                                                 <div className="h-12 w-20 rounded-lg bg-gray-100 overflow-hidden shrink-0 border border-gray-100">
@@ -151,7 +151,7 @@ export default function BannerList({ onDeleted, onEdit }: Props) {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <button type="button" onClick={(e) => { e.stopPropagation(); onEdit && onEdit(b); }} className="font-bold text-blue-600 hover:underline text-left">{b.title}</button>
+                                                    <button type="button" onClick={(e) => { e.stopPropagation(); onEdit && onEdit(b); }} className="font-bold text-primary-600 hover:text-primary-700 hover:underline text-left">{b.title}</button>
                                                     <div className="text-xs text-gray-400 font-mono mt-0.5">{b._id || b.id}</div>
                                                 </div>
                                             </div>
@@ -159,15 +159,15 @@ export default function BannerList({ onDeleted, onEdit }: Props) {
                                         <td className="px-6 py-4 font-medium text-gray-500">{b.subtitle}</td>
                                         <td className="px-6 py-4">{b.order ?? 0}</td>
                                         <td className="px-6 py-4">
-                                            <span className={`px-2 py-1 text-[10px] font-black rounded-full uppercase tracking-wider ${b.featured ? 'bg-amber-50 text-amber-700 border border-amber-100' : 'bg-gray-50 text-gray-400 border border-gray-100'}`}>{b.featured ? 'Featured' : 'Standard'}</span>
+                                            <span className={`px-2.5 py-1 text-[10px] font-black rounded-full uppercase tracking-wider ${b.featured ? 'bg-amber-100 text-amber-800' : 'bg-gray-100 text-gray-800'}`}>{b.featured ? 'Featured' : 'Standard'}</span>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className={`px-2 py-1 text-[10px] font-black rounded-full uppercase tracking-wider ${b.active ? 'bg-green-50 text-green-700 border border-green-100' : 'bg-gray-50 text-gray-400 border border-gray-100'}`}>{b.active ? 'Active' : 'Inactive'}</span>
+                                            <span className={`px-2.5 py-1 text-[10px] font-black rounded-full uppercase tracking-wider ${b.active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>{b.active ? 'Active' : 'Inactive'}</span>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">
-                                                <button onClick={(e) => { e.stopPropagation(); onEdit && onEdit(b); }} className="px-3 py-1 bg-gray-900 text-white font-bold rounded hover:bg-gray-800 shadow-sm active:scale-95 transition-all">Update</button>
-                                                <button onClick={(e) => { e.stopPropagation(); openConfirm(b.id || b._id, b.title); }} disabled={!(b.id || b._id) || deletingId === (b.id || b._id)} className="px-3 py-1 text-sm text-red-600 border border-red-100 rounded disabled:opacity-50">{deletingId === (b.id || b._id) ? 'Deleting...' : 'Delete'}</button>
+                                                <button onClick={(e) => { e.stopPropagation(); onEdit && onEdit(b); }} className="md-btn-primary px-4 py-1.5 text-sm whitespace-nowrap">Update</button>
+                                                <button onClick={(e) => { e.stopPropagation(); openConfirm(b.id || b._id, b.title); }} disabled={!(b.id || b._id) || deletingId === (b.id || b._id)} className="md-btn-outlined px-4 py-1.5 text-sm border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 disabled:opacity-50 whitespace-nowrap">{deletingId === (b.id || b._id) ? 'Deleting...' : 'Delete'}</button>
                                             </div>
                                         </td>
                                     </tr>

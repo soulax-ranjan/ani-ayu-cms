@@ -177,7 +177,7 @@ export default function AddBannerForm({ onSuccess, onCancel, initialValues }: Pr
 
     return (
         <>
-        <form onSubmit={handleSubmit} className="compact-form bg-white p-5 rounded-xl shadow-md border border-gray-100 space-y-6">
+        <form onSubmit={handleSubmit} className="md-card p-5 border-t-4 border-t-primary-500 space-y-6">
             <div className="flex items-center justify-between border-b border-gray-50 pb-4">
                 <div>
                     <h2 className="text-lg font-black text-gray-900">Add Banner</h2>
@@ -195,17 +195,17 @@ export default function AddBannerForm({ onSuccess, onCancel, initialValues }: Pr
             <div className="space-y-4">
                 <div>
                     <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Title</label>
-                    <input required value={title} onChange={(e) => setTitle(e.target.value)} className="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-50 focus:border-blue-500 outline-none text-sm" />
+                    <input required value={title} onChange={(e) => setTitle(e.target.value)} className="md-input w-full" />
                 </div>
 
                 <div>
                     <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Subtitle</label>
-                    <input value={subtitle} onChange={(e) => setSubtitle(e.target.value)} className="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-50 focus:border-blue-500 outline-none text-sm" />
+                    <input value={subtitle} onChange={(e) => setSubtitle(e.target.value)} className="md-input w-full" />
                 </div>
 
                 <div>
                     <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Description</label>
-                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} className="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl resize-none focus:bg-white focus:ring-2 focus:ring-blue-50 focus:border-blue-500 outline-none text-sm" />
+                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} className="md-input w-full resize-none" />
                 </div>
 
                 <div>
@@ -233,7 +233,7 @@ export default function AddBannerForm({ onSuccess, onCancel, initialValues }: Pr
                                         </button>
                                     </div>
                                 ) : (
-                                    <input value={image} onChange={(e) => setImage(e.target.value)} placeholder="Or paste image URL" className="flex-1 px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white outline-none text-sm" />
+                                    <input value={image} onChange={(e) => setImage(e.target.value)} placeholder="Or paste image URL" className="md-input flex-1" />
                                 )}
                             </div>
                 </div>
@@ -241,11 +241,11 @@ export default function AddBannerForm({ onSuccess, onCancel, initialValues }: Pr
                 <div className="grid grid-cols-2 gap-3">
                     <div>
                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">CTA Text</label>
-                        <input value={ctaText} onChange={(e) => setCtaText(e.target.value)} className="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white outline-none text-sm" />
+                        <input value={ctaText} onChange={(e) => setCtaText(e.target.value)} className="md-input w-full" />
                     </div>
                     <div>
                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">CTA Link</label>
-                        <input value={ctaLink} onChange={(e) => setCtaLink(e.target.value)} className="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white outline-none text-sm" />
+                        <input value={ctaLink} onChange={(e) => setCtaLink(e.target.value)} className="md-input w-full" />
                     </div>
                 </div>
 
@@ -260,7 +260,7 @@ export default function AddBannerForm({ onSuccess, onCancel, initialValues }: Pr
                     </div>
                     <div>
                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Order</label>
-                        <input type="number" value={order} onChange={(e) => setOrder(Number(e.target.value))} className="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white outline-none text-sm" />
+                        <input type="number" value={order} onChange={(e) => setOrder(Number(e.target.value))} className="md-input w-full" />
                     </div>
                 </div>
 
@@ -271,8 +271,8 @@ export default function AddBannerForm({ onSuccess, onCancel, initialValues }: Pr
             </div>
 
             <div className="flex justify-end gap-3 pt-3 border-t border-gray-50">
-                {onCancel && <button type="button" onClick={onCancel} className="px-4 py-2 text-gray-500 font-semibold uppercase tracking-widest hover:bg-gray-50 rounded-xl">Cancel</button>}
-                <button type="submit" disabled={loading} className="px-4 py-2 bg-gray-900 text-white font-semibold uppercase tracking-widest rounded-xl hover:bg-gray-800 transition-all disabled:opacity-50">{loading ? 'Saving...' : 'Save Banner'}</button>
+                {onCancel && <button type="button" onClick={onCancel} className="md-btn-outlined px-4 py-2 text-sm">Cancel</button>}
+                <button type="submit" disabled={loading} className="md-btn-primary px-4 py-2 text-sm disabled:opacity-50">{loading ? 'Saving...' : 'Save Banner'}</button>
             </div>
         </form>
         {lightboxImage && (
