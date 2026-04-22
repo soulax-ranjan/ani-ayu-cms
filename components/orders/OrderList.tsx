@@ -54,14 +54,14 @@ export default function OrderList() {
 
     return (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="flex items-center justify-between gap-4 p-4 border-b">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 border-b">
                 <div>
                     <h3 className="text-lg font-black text-gray-900">Orders</h3>
                     <p className="text-xs text-gray-500">Recent orders and quick actions</p>
                 </div>
-                <div className="flex items-center gap-3">
-                    <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search by order ID, email or name" className="px-3 py-2 border rounded text-sm" />
-                    <button onClick={() => fetchOrders()} className="px-3 py-2 bg-gray-900 text-white rounded">Refresh</button>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+                    <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search..." className="px-3 py-2 border rounded text-sm w-full sm:w-auto" />
+                    <button onClick={() => fetchOrders()} className="px-3 py-2 bg-gray-900 text-white rounded whitespace-nowrap">Refresh</button>
                 </div>
             </div>
 

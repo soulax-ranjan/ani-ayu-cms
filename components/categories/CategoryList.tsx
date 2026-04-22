@@ -98,19 +98,19 @@ export default function CategoryList({ onEdit }: { onEdit?: (category: Category)
                 }
             `}</style>
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="flex items-center justify-between gap-4 p-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4">
                     <div className="text-sm text-gray-600">
                         <span className="font-semibold text-gray-900">Total:</span> {categories.length} categories
-                        <span className="mx-2">•</span>
-                        <span className="text-gray-500">Showing {(categories.length === 0) ? 0 : (currentPage - 1) * PAGE_SIZE + 1} - {Math.min(currentPage * PAGE_SIZE, categories.length)}</span>
+                        <span className="mx-2 hidden sm:inline">•</span>
+                        <span className="text-gray-500 block sm:inline">Showing {(categories.length === 0) ? 0 : (currentPage - 1) * PAGE_SIZE + 1} - {Math.min(currentPage * PAGE_SIZE, categories.length)}</span>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                        <label className="text-sm text-gray-600">Sort:</label>
+                    <div className="flex items-center gap-3 w-full sm:w-auto">
+                        <label className="text-sm text-gray-600 whitespace-nowrap">Sort:</label>
                         <select
                             value={sortOption}
                             onChange={(e) => { setSortOption(e.target.value as any); setCurrentPage(1); }}
-                            className="px-3 py-1 text-sm border rounded-md bg-white"
+                            className="px-3 py-1 text-sm border rounded-md bg-white w-full sm:w-auto"
                         >
                             <option value="name_asc">Category (A → Z)</option>
                             <option value="name_desc">Category (Z → A)</option>
@@ -211,10 +211,10 @@ export default function CategoryList({ onEdit }: { onEdit?: (category: Category)
 
                 {/* Pagination Controls */}
                 {categories.length > PAGE_SIZE && (
-                    <div className="flex items-center justify-between gap-4 p-4 border-t border-gray-100">
-                        <div className="text-sm text-gray-600">Page {currentPage} of {Math.max(1, Math.ceil(categories.length / PAGE_SIZE))}</div>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 border-t border-gray-100">
+                        <div className="text-sm text-gray-600 text-center sm:text-left">Page {currentPage} of {Math.max(1, Math.ceil(categories.length / PAGE_SIZE))}</div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center justify-center flex-wrap gap-2">
                             <button
                                 onClick={() => setCurrentPage(1)}
                                 disabled={currentPage === 1}

@@ -593,14 +593,14 @@ export default function AddProductForm({ onSuccess, onCancel, initialValues }: A
                         </div>
 
                         <div className="space-y-4">
-                            <div className="flex items-center justify-between">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                                 <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Gallery Images</label>
-                                <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="px-4 py-2 bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-blue-100 transition-all flex items-center gap-2">
+                                <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="px-4 py-2 bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-blue-100 transition-all flex items-center justify-center gap-2 w-full sm:w-auto">
                                     {uploading ? 'Processing...' : 'Add Images'}
                                 </button>
                                 <input type="file" ref={fileInputRef} onChange={handleFileUpload} multiple accept="image/*" className="hidden" />
                             </div>
-                            <div className="grid grid-cols-4 gap-3">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                 {images.map((url, idx) => (
                                     <div key={idx} onClick={() => setLightboxImage(url)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setLightboxImage(url); }} className={`relative aspect-square rounded-2xl overflow-hidden border-2 transition-all cursor-pointer ${imageUrl === url ? 'border-blue-500 ring-4 ring-blue-50' : 'border-gray-100'}`}>
                                         <img src={url} className="w-full h-full object-cover object-center block" />
@@ -655,8 +655,8 @@ export default function AddProductForm({ onSuccess, onCancel, initialValues }: A
                         </div>
                         <div className="space-y-3">
                             <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Size Chart (Inches)</label>
-                            <div className="border border-gray-100 rounded-xl overflow-hidden">
-                                <table className="w-full text-sm">
+                            <div className="border border-gray-100 rounded-xl overflow-x-auto custom-scrollbar">
+                                <table className="w-full text-sm whitespace-nowrap min-w-[500px]">
                                     <thead className="bg-gray-50 text-xs font-bold text-gray-500 uppercase">
                                         <tr>
                                             <th className="px-3 py-2 text-left w-10">Use</th>
