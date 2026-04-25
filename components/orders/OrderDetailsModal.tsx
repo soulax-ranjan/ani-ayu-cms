@@ -9,6 +9,7 @@ export default function OrderDetailsModal({ order, onClose, onUpdate }: { order:
     const address = order.address || {};
     const [status, setStatus] = useState<string>(order.status || 'pending');
     const [saving, setSaving] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     const updateStatus = async () => {
         if (!status) return;
@@ -31,6 +32,29 @@ export default function OrderDetailsModal({ order, onClose, onUpdate }: { order:
             alert(err?.message || 'Update failed');
         } finally {
             setSaving(false);
+        }
+    };
+
+    const deleteOrder = async () => {
+        if (!confirm('Are you sure you want to delete this order? This action cannot be undone.')) return;
+        
+        setDeleting(true);
+        try {
+            const res = await fetch(`${API_BASE_URL}/orders/${order.id}`, {
+                method: 'DELETE',
+                headers: { accept: 'application/json' },
+            });
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
+                throw new Error(data.message || 'Failed to delete order');
+            }
+            alert('Order deleted successfully');
+            onClose();
+            if (onUpdate) onUpdate();
+        } catch (err: any) {
+            alert(err?.message || 'Delete failed');
+        } finally {
+            setDeleting(false);
         }
     };
     
@@ -146,7 +170,14 @@ export default function OrderDetailsModal({ order, onClose, onUpdate }: { order:
                         </div>
                     </div>
 
-                    <div className="flex justify-end">
+                    <div className="flex justify-between items-end">
+                        <button 
+                            onClick={deleteOrder} 
+                            disabled={deleting}
+                            className="md-btn-outlined border-red-500 text-red-500 hover:bg-red-50 px-4 py-2 disabled:opacity-50"
+                        >
+                            {deleting ? 'Deleting...' : 'Delete Order'}
+                        </button>
                         <div className="text-right">
                             <div className="text-xs text-gray-400">Total</div>
                             <div className="font-black">INR {order.total_amount?.toLocaleString()}</div>

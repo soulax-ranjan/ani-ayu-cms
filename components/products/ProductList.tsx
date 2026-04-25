@@ -212,10 +212,10 @@ export default function ProductList({ onEdit }: { onEdit?: (p: Product) => void 
                                             <div className="flex items-center gap-4">
                                                 <div className="h-12 w-12 rounded-lg bg-gray-100 overflow-hidden shrink-0 border border-gray-100">
                                                     <img
-                                                        src={product.image_url && product.image_url.startsWith('http') ? product.image_url : `https://placehold.co/100x125?text=No+Image`}
+                                                        src={product.image_url || `https://placehold.co/100x125?text=No+Image`}
                                                         alt={product.name}
                                                         className="h-full w-full object-cover object-center cursor-pointer block"
-                                                        onClick={(e) => { e.stopPropagation(); setLightboxImage(product.image_url && product.image_url.startsWith('http') ? product.image_url : `https://placehold.co/600x800?text=Product`); }}
+                                                        onClick={(e) => { e.stopPropagation(); setLightboxImage(product.image_url || `https://placehold.co/600x800?text=Product`); }}
                                                         onError={(e) => {
                                                             (e.target as HTMLImageElement).src = 'https://placehold.co/100x125?text=Product';
                                                         }}

@@ -143,10 +143,10 @@ export default function BannerList({ onDeleted, onEdit }: Props) {
                                             <div className="flex items-center gap-4">
                                                 <div className="h-12 w-20 rounded-lg bg-gray-100 overflow-hidden shrink-0 border border-gray-100">
                                                     <img
-                                                        src={b.image && b.image.startsWith('http') ? b.image : `https://placehold.co/120x80?text=No+Image`}
+                                                        src={b.image || `https://placehold.co/120x80?text=No+Image`}
                                                         alt={b.title}
                                                         className="h-full w-full object-cover object-center cursor-pointer"
-                                                        onClick={(e) => { e.stopPropagation(); setLightboxImage(b.image && b.image.startsWith('http') ? b.image : `https://placehold.co/600x400?text=Banner`); }}
+                                                        onClick={(e) => { e.stopPropagation(); setLightboxImage(b.image || `https://placehold.co/600x400?text=Banner`); }}
                                                         onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/120x80?text=Banner'; }}
                                                     />
                                                 </div>

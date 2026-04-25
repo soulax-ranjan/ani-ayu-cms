@@ -222,32 +222,97 @@ export default function AddProductForm({ onSuccess, onCancel, initialValues }: A
 
         try {
             const uploadPromises = Array.from(files).map(async (file) => {
+                // Compress image before upload
+                const compressedFile = await compressImage(file);
+                
                 const formData = new FormData();
-                formData.append('image', file);
+                formData.append('image', compressedFile);
 
                 const response = await fetch(`${API_BASE_URL}/upload/image`, {
                     method: 'POST',
                     body: formData,
                 });
 
-                if (!response.ok) throw new Error('Upload failed');
+                if (!response.ok) {
+                    if (response.status === 413) {
+                        throw new Error('Image is too large. Please use a smaller image.');
+                    }
+                    throw new Error('Upload failed');
+                }
                 const data = await response.json();
-                return data.url;
+                return data.url || data.path || data.imageUrl || '';
             });
 
             const newUrls = await Promise.all(uploadPromises);
-            setImages(prev => [...prev, ...newUrls]);
+            const validUrls = newUrls.filter(url => url); // Filter out empty strings
+            
+            if (validUrls.length > 0) {
+                setImages(prev => [...prev, ...validUrls]);
 
-            // If no thumbnail set, set the first uploaded one
-            if (!imageUrl && newUrls.length > 0) {
-                setImageUrl(newUrls[0]);
+                // If no thumbnail set, set the first uploaded one
+                if (!imageUrl) {
+                    setImageUrl(validUrls[0]);
+                }
+            } else {
+                setError('Upload completed but no image URLs were returned');
             }
         } catch (err: any) {
-            setError('Failed to upload images. Please try again.');
+            setError(err?.message || 'Failed to upload images. Please try again.');
         } finally {
             setUploading(false);
             if (fileInputRef.current) fileInputRef.current.value = '';
         }
+    };
+
+    const compressImage = (file: File): Promise<File> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target?.result as string;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    // Max dimensions
+                    const MAX_WIDTH = 1920;
+                    const MAX_HEIGHT = 1920;
+                    
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx?.drawImage(img, 0, 0, width, height);
+                    
+                    canvas.toBlob((blob) => {
+                        if (blob) {
+                            const compressedFile = new File([blob], file.name, {
+                                type: 'image/jpeg',
+                                lastModified: Date.now(),
+                            });
+                            resolve(compressedFile);
+                        } else {
+                            resolve(file);
+                        }
+                    }, 'image/jpeg', 0.85);
+                };
+                img.onerror = () => resolve(file);
+            };
+            reader.onerror = () => resolve(file);
+        });
     };
 
     const handleDeleteImage = (url: string) => {
@@ -600,34 +665,48 @@ export default function AddProductForm({ onSuccess, onCancel, initialValues }: A
                                 </button>
                                 <input type="file" ref={fileInputRef} onChange={handleFileUpload} multiple accept="image/*" className="hidden" />
                             </div>
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                {images.map((url, idx) => (
-                                    <div key={idx} onClick={() => setLightboxImage(url)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setLightboxImage(url); }} className={`relative aspect-square rounded-2xl overflow-hidden border-2 transition-all cursor-pointer ${imageUrl === url ? 'border-blue-500 ring-4 ring-blue-50' : 'border-gray-100'}`}>
-                                        <img src={url} className="w-full h-full object-cover object-center block" />
-                                        {/* cross button: delete via API if uploaded, otherwise remove locally */}
-                                        <button
-                                            type="button"
-                                            onClick={async (e) => {
-                                                e.stopPropagation();
-                                                const isUrl = typeof url === 'string' && (url.startsWith('http') || url.startsWith('/'));
-                                                if (isUrl) {
-                                                    await deleteUploadApi(url);
-                                                } else {
-                                                    handleDeleteImage(url);
-                                                }
-                                            }}
-                                            disabled={deletingImages.includes(url)}
-                                            title="Delete image"
-                                            className="absolute top-2 right-2 z-20 h-7 w-7 rounded-full bg-white/90 flex items-center justify-center text-sm text-red-600 shadow"
-                                        >
-                                            {deletingImages.includes(url) ? '...' : '✕'}
-                                        </button>
-                                        <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center p-1">
-                                            <button type="button" onClick={(e) => { e.stopPropagation(); setImageUrl(url); }} className="w-full py-1.5 bg-white text-[8px] font-black uppercase rounded text-gray-900">Thumbnail</button>
+                            {images.length === 0 ? (
+                                <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center">
+                                    <svg className="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <p className="text-sm text-gray-500 font-medium">No images uploaded yet</p>
+                                    <p className="text-xs text-gray-400 mt-1">Click "Add Images" to upload product photos</p>
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                    {images.map((url, idx) => (
+                                        <div key={idx} onClick={() => setLightboxImage(url)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setLightboxImage(url); }} className={`relative aspect-square rounded-2xl overflow-hidden border-2 transition-all cursor-pointer ${imageUrl === url ? 'border-blue-500 ring-4 ring-blue-50' : 'border-gray-100'}`}>
+                                            <img 
+                                                src={url} 
+                                                className="w-full h-full object-cover object-center block"
+                                                onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/400x400?text=Product'; }}
+                                            />
+                                            {/* cross button: delete via API if uploaded, otherwise remove locally */}
+                                            <button
+                                                type="button"
+                                                onClick={async (e) => {
+                                                    e.stopPropagation();
+                                                    const isUrl = typeof url === 'string' && (url.startsWith('http') || url.startsWith('/'));
+                                                    if (isUrl) {
+                                                        await deleteUploadApi(url);
+                                                    } else {
+                                                        handleDeleteImage(url);
+                                                    }
+                                                }}
+                                                disabled={deletingImages.includes(url)}
+                                                title="Delete image"
+                                                className="absolute top-2 right-2 z-20 h-7 w-7 rounded-full bg-white/90 flex items-center justify-center text-sm text-red-600 shadow"
+                                            >
+                                                {deletingImages.includes(url) ? '...' : '✕'}
+                                            </button>
+                                            <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center p-1">
+                                                <button type="button" onClick={(e) => { e.stopPropagation(); setImageUrl(url); }} className="w-full py-1.5 bg-white text-[8px] font-black uppercase rounded text-gray-900">Thumbnail</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
