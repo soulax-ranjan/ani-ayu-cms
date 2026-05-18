@@ -431,7 +431,7 @@ export default function AddProductForm({ onSuccess, onCancel, initialValues }: A
                 currency,
                 stock_quantity: Number(stockQuantity),
                 low_stock_threshold: Number(lowStockThreshold),
-                in_stock: Number(stockQuantity) > 0,
+                in_stock: status === 'out_of_stock' ? false : Number(stockQuantity) > 0,
                 featured,
                 customizable,
 
@@ -577,6 +577,7 @@ export default function AddProductForm({ onSuccess, onCancel, initialValues }: A
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                     <option value="draft">Draft</option>
+                                    <option value="out_of_stock">Out of Stock</option>
                                 </select>
                             </div>
                         </div>

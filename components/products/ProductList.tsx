@@ -256,11 +256,16 @@ export default function ProductList({ onEdit }: { onEdit?: (p: Product) => void 
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className={`px-2.5 py-1 text-xs font-bold rounded-full uppercase tracking-wider ${product.status === 'active'
-                                                ? 'bg-green-100 text-green-800'
-                                                : 'bg-gray-100 text-gray-800'
-                                                }`}>
-                                                {product.status || 'Draft'}
+                                            <span className={`px-2.5 py-1 text-xs font-bold rounded-full uppercase tracking-wider ${
+                                                product.status === 'active'
+                                                    ? 'bg-green-100 text-green-800'
+                                                    : product.status === 'out_of_stock'
+                                                    ? 'bg-red-100 text-red-700'
+                                                    : product.status === 'inactive'
+                                                    ? 'bg-yellow-100 text-yellow-800'
+                                                    : 'bg-gray-100 text-gray-800'
+                                            }`}>
+                                                {product.status === 'out_of_stock' ? 'Out of Stock' : product.status || 'Draft'}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">
